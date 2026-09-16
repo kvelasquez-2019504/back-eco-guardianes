@@ -12,7 +12,9 @@ const app = express();
 class Server {
     constructor() {
         this.userPath = `${process.env.ROUTER_PATH_MASTER}/user`;
-        this.authPath =  `${process.env.ROUTER_PATH_MASTER}/auth`;
+        this.authPath = `${process.env.ROUTER_PATH_MASTER}/auth`;
+        this.levelPath = `${process.env.ROUTER_PATH_MASTER}/level`;
+        this.careerPath = `${process.env.ROUTER_PATH_MASTER}/career`;
         this.apiRouters = new (require(`${process.env.ROOT_PATH_INTERNAL}/api.routes.js`).ApiRoutes)();
         this.middleware();
         this.connectDB();
@@ -35,6 +37,8 @@ class Server {
     routes() {
         app.use(this.userPath, this.apiRouters.getUserRoutes());
         app.use(this.authPath, this.apiRouters.getAuthRoutes());
+        app.use(this.levelPath, this.apiRouters.getLevelRoutes());
+        app.use(this.careerPath, this.apiRouters.getCareerRoutes());
     }
 
     run() {

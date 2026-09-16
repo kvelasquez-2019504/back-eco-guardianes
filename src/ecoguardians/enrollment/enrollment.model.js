@@ -21,3 +21,12 @@ const Enrollment = new Schema({
     academicYear: { type: Number, default: 2026 },
     status: { type: Boolean, default: true },
 });
+
+Enrollment.methods.toJSON = function () {
+    const { __v, _id, ...object } = this.toObject();
+    object.uid = _id;
+    return object;
+};
+
+export default model('Enrollment', Enrollment);
+

@@ -6,6 +6,8 @@ export class ApiRoutes {
     constructor() {
         this.userRoute = require('#eg/users/user.routes.js');
         this.authRoute = require('#eg/auth/auth.routes.js');
+        this.levelRoute = require('#eg/level/level.routes.js');
+        this.careerRoute = require('#eg/career/career.routes.js');
     }
 
     getUserRoutes() {
@@ -14,6 +16,14 @@ export class ApiRoutes {
 
     getAuthRoutes() {
         return this.authRoute.default;
+    }
+
+    getLevelRoutes() {
+        return this.levelRoute.default;
+    }
+
+    getCareerRoutes() {
+        return this.careerRoute.default;
     }
 }
 

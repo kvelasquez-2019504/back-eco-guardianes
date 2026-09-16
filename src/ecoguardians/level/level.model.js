@@ -14,3 +14,12 @@ const Level = new Schema({
     allowedSections: [{ type: String }], // Ej. para 1ro: ['A','B','C','D','E','F']
     status: { type: Boolean, default: true },
 });
+
+Level.methods.toJSON = function () {
+    const { __v, _id, ...object } = this.toObject();
+    object.uid = _id;
+    return object;
+};
+
+export default model('Level', Level);
+

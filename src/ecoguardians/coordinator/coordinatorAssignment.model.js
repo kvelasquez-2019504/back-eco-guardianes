@@ -15,3 +15,12 @@ const CoordinatorAssignment = new Schema({
     },
     status: { type: Boolean, default: true },
 });
+
+CoordinatorAssignment.methods.toJSON = function () {
+    const { __v, _id, ...object } = this.toObject();
+    object.uid = _id;
+    return object;
+};
+
+export default model('CoordinatorAssignment', CoordinatorAssignment);
+

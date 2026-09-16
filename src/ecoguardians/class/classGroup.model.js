@@ -41,3 +41,12 @@ const ClassGroup = new Schema({
     academicYear: { type: Number, default: 2026 },
     status: { type: Boolean, default: true },
 });
+
+ClassGroup.methods.toJSON = function () {
+    const { __v, _id, ...object } = this.toObject();
+    object.uid = _id;
+    return object;
+};
+
+export default model('ClassGroup', ClassGroup);
+
