@@ -14,6 +14,7 @@ export class ApiRoutes {
         this.rubricRoute = require('#eg/rubric/rubric.routes.js');
         this.postRoute = require('#eg/post/post.routes.js');
         this.turnRoute = require('#eg/turn/turn.routes.js');
+        this.rankingRoute = require('#eg/ranking/ranking.routes.js');
     }
 
     getUserRoutes() {
@@ -54,6 +55,10 @@ export class ApiRoutes {
 
     getTurnRoutes() {
         return this.turnRoute.default;
+    }
+
+    getRankingRoutes() {
+        return this.rankingRoute.default;
     }
 }
 

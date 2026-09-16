@@ -21,6 +21,7 @@ class Server {
         this.rubricPath = `${process.env.ROUTER_PATH_MASTER}/rubric`;
         this.postPath = `${process.env.ROUTER_PATH_MASTER}/post`;
         this.turnPath = `${process.env.ROUTER_PATH_MASTER}/turn`;
+        this.rankingPath = `${process.env.ROUTER_PATH_MASTER}/ranking`;
         this.apiRouters = new (require(`${process.env.ROOT_PATH_INTERNAL}/api.routes.js`).ApiRoutes)();
         this.middleware();
         this.connectDB();
@@ -51,6 +52,7 @@ class Server {
         app.use(this.rubricPath, this.apiRouters.getRubricRoutes());
         app.use(this.postPath, this.apiRouters.getPostRoutes());
         app.use(this.turnPath, this.apiRouters.getTurnRoutes());
+        app.use(this.rankingPath, this.apiRouters.getRankingRoutes());
     }
 
     run() {
