@@ -11,6 +11,7 @@ export class ApiRoutes {
         this.coordinatorRoute = require('#eg/coordinator/coordinatorAssignment.routes.js');
         this.classRoute = require('#eg/class/classGroup.routes.js');
         this.enrollmentRoute = require('#eg/enrollment/enrollment.routes.js');
+        this.rubricRoute = require('#eg/rubric/rubric.routes.js');
     }
 
     getUserRoutes() {
@@ -39,6 +40,10 @@ export class ApiRoutes {
 
     getEnrollmentRoutes() {
         return this.enrollmentRoute.default;
+    }
+
+    getRubricRoutes() {
+        return this.rubricRoute.default;
     }
 }
 
