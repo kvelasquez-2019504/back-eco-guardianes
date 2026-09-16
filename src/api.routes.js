@@ -8,6 +8,8 @@ export class ApiRoutes {
         this.authRoute = require('#eg/auth/auth.routes.js');
         this.levelRoute = require('#eg/level/level.routes.js');
         this.careerRoute = require('#eg/career/career.routes.js');
+        this.coordinatorRoute = require('#eg/coordinator/coordinatorAssignment.routes.js');
+        this.classRoute = require('#eg/class/classGroup.routes.js');
     }
 
     getUserRoutes() {
@@ -24,6 +26,14 @@ export class ApiRoutes {
 
     getCareerRoutes() {
         return this.careerRoute.default;
+    }
+
+    getCoordinatorRoutes() {
+        return this.coordinatorRoute.default;
+    }
+
+    getClassRoutes() {
+        return this.classRoute.default;
     }
 }
 

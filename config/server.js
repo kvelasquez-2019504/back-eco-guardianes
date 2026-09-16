@@ -15,6 +15,8 @@ class Server {
         this.authPath = `${process.env.ROUTER_PATH_MASTER}/auth`;
         this.levelPath = `${process.env.ROUTER_PATH_MASTER}/level`;
         this.careerPath = `${process.env.ROUTER_PATH_MASTER}/career`;
+        this.coordinatorPath = `${process.env.ROUTER_PATH_MASTER}/coordinator`;
+        this.classPath = `${process.env.ROUTER_PATH_MASTER}/class`;
         this.apiRouters = new (require(`${process.env.ROOT_PATH_INTERNAL}/api.routes.js`).ApiRoutes)();
         this.middleware();
         this.connectDB();
@@ -39,6 +41,8 @@ class Server {
         app.use(this.authPath, this.apiRouters.getAuthRoutes());
         app.use(this.levelPath, this.apiRouters.getLevelRoutes());
         app.use(this.careerPath, this.apiRouters.getCareerRoutes());
+        app.use(this.coordinatorPath, this.apiRouters.getCoordinatorRoutes());
+        app.use(this.classPath, this.apiRouters.getClassRoutes());
     }
 
     run() {
