@@ -13,6 +13,7 @@ export class ApiRoutes {
         this.enrollmentRoute = require('#eg/enrollment/enrollment.routes.js');
         this.rubricRoute = require('#eg/rubric/rubric.routes.js');
         this.postRoute = require('#eg/post/post.routes.js');
+        this.turnRoute = require('#eg/turn/turn.routes.js');
     }
 
     getUserRoutes() {
@@ -49,6 +50,10 @@ export class ApiRoutes {
 
     getPostRoutes() {
         return this.postRoute.default;
+    }
+
+    getTurnRoutes() {
+        return this.turnRoute.default;
     }
 }
 
