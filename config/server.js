@@ -19,6 +19,7 @@ class Server {
         this.classPath = `${process.env.ROUTER_PATH_MASTER}/class`;
         this.enrollmentPath = `${process.env.ROUTER_PATH_MASTER}/enrollment`;
         this.rubricPath = `${process.env.ROUTER_PATH_MASTER}/rubric`;
+        this.postPath = `${process.env.ROUTER_PATH_MASTER}/post`;
         this.apiRouters = new (require(`${process.env.ROOT_PATH_INTERNAL}/api.routes.js`).ApiRoutes)();
         this.middleware();
         this.connectDB();
@@ -47,6 +48,7 @@ class Server {
         app.use(this.classPath, this.apiRouters.getClassRoutes());
         app.use(this.enrollmentPath, this.apiRouters.getEnrollmentRoutes());
         app.use(this.rubricPath, this.apiRouters.getRubricRoutes());
+        app.use(this.postPath, this.apiRouters.getPostRoutes());
     }
 
     run() {
