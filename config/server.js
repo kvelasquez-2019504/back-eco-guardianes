@@ -17,6 +17,7 @@ class Server {
         this.careerPath = `${process.env.ROUTER_PATH_MASTER}/career`;
         this.coordinatorPath = `${process.env.ROUTER_PATH_MASTER}/coordinator`;
         this.classPath = `${process.env.ROUTER_PATH_MASTER}/class`;
+        this.enrollmentPath = `${process.env.ROUTER_PATH_MASTER}/enrollment`;
         this.apiRouters = new (require(`${process.env.ROOT_PATH_INTERNAL}/api.routes.js`).ApiRoutes)();
         this.middleware();
         this.connectDB();
@@ -43,6 +44,7 @@ class Server {
         app.use(this.careerPath, this.apiRouters.getCareerRoutes());
         app.use(this.coordinatorPath, this.apiRouters.getCoordinatorRoutes());
         app.use(this.classPath, this.apiRouters.getClassRoutes());
+        app.use(this.enrollmentPath, this.apiRouters.getEnrollmentRoutes());
     }
 
     run() {
