@@ -33,21 +33,26 @@ export const createPost = async (req, res) => {
         // 2. Validación estricta de horario escolar de Kinal (Lunes a Viernes GMT-6)
         validateSchoolSchedule(stage, shift);
 
-        const { description, images } = req.body;
+        const { description } = req.body;
 
-        if (!images || !Array.isArray(images) || images.length === 0) {
+        if (!req.files || !Array.isArray(req.files) || req.files.length === 0) {
             return res.status(400).json({
                 ok: false,
                 msg: 'Debe incluir al menos una imagen fotográfica como evidencia de la acción.',
             });
         }
 
+        const images = req.files.map((file) => ({
+            data: file.buffer,
+            contentType: file.mimetype,
+        }));
+
         const post = new Post({
             student: studentId,
             classGroup: enrollment.classGroup._id,
             shift,
             academicYear: enrollment.academicYear,
-            description: description.trim(),
+            description: description ? description.trim() : '',
             images,
             publishedAt: new Date(),
         });
@@ -88,6 +93,7 @@ export const getPosts = async (req, res) => {
         const [total, posts] = await Promise.all([
             Post.countDocuments(query),
             Post.find(query)
+                .select('-images.data')
                 .populate('student', 'name lastName email code ecoAura')
                 .populate('classGroup', 'name section type')
                 .populate('evaluations.evaluator', 'name lastName role ecoAura')
@@ -117,6 +123,7 @@ export const getPostById = async (req, res) => {
         const { id } = req.params;
 
         const post = await Post.findOne({ _id: id, status: true })
+            .select('-images.data')
             .populate('student', 'name lastName email code ecoAura')
             .populate('classGroup', 'name section type')
             .populate('evaluations.evaluator', 'name lastName role ecoAura');
@@ -288,6 +295,7 @@ export const getMyPosts = async (req, res) => {
             student: studentId,
             status: true,
         })
+            .select('-images.data')
             .populate('classGroup', 'name section type')
             .populate('evaluations.evaluator', 'name lastName role ecoAura')
             .sort({ publishedAt: -1 });
@@ -344,3 +352,36 @@ export const deletePost = async (req, res) => {
         });
     }
 };
+
+export const getPostImage = async (req, res) => {
+    try {
+        const { id, index } = req.params;
+        const post = await Post.findOne({ _id: id, status: true });
+
+        const imgIndex = Number(index);
+        if (
+            !post ||
+            !Array.isArray(post.images) ||
+            !post.images[imgIndex] ||
+            !post.images[imgIndex].data
+        ) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'Imagen no encontrada.',
+            });
+        }
+
+        const img = post.images[imgIndex];
+        res.setHeader('Content-Type', img.contentType || 'image/jpeg');
+        res.setHeader('Cache-Control', 'public, max-age=86400');
+        return res.send(img.data);
+    } catch (error) {
+        console.error('Error al obtener imagen del post:', error);
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error inesperado al obtener imagen.',
+            error: error.message,
+        });
+    }
+};
+

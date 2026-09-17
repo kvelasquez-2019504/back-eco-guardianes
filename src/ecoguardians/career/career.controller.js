@@ -1,6 +1,7 @@
 'use strict';
 
 import Career from './career.model.js';
+import { seedCareers as seedCareersHelper } from '#helpers/init-seeders.js';
 
 export const createCareer = async (req, res) => {
     try {
@@ -110,37 +111,10 @@ export const deleteCareer = async (req, res) => {
 
 export const seedCareers = async (req, res) => {
     try {
-        const defaultCareers = [
-            {
-                name: 'Informática',
-                description: 'Desarrollo de software, sistemas y tecnologías web.',
-            },
-            {
-                name: 'Dibujo Técnico',
-                description: 'Diseño arquitectónico y modelado técnico digital.',
-            },
-            {
-                name: 'Electrónica',
-                description: 'Sistemas electrónicos, circuitos y automatización industrial.',
-            },
-        ];
-
-        const results = [];
-        for (const def of defaultCareers) {
-            let career = await Career.findOne({ name: def.name });
-            if (!career) {
-                career = new Career(def);
-                await career.save();
-                results.push({ name: def.name, status: 'creada' });
-            } else {
-                results.push({ name: def.name, status: 'ya existía' });
-            }
-        }
-
+        await seedCareersHelper();
         return res.status(200).json({
             ok: true,
-            msg: 'Proceso de inicialización de carreras completado.',
-            results,
+            msg: 'Carreras técnicas de Kinal inicializadas exitosamente.',
         });
     } catch (error) {
         console.error('Error al inicializar carreras:', error);

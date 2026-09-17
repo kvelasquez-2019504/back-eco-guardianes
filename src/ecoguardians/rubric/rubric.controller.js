@@ -1,6 +1,7 @@
 'use strict';
 
 import RubricCriterion from './rubric.model.js';
+import { seedRubrics as seedRubricsHelper } from '#helpers/init-seeders.js';
 
 export const createCriterion = async (req, res) => {
     try {
@@ -162,53 +163,10 @@ export const deleteCriterion = async (req, res) => {
 
 export const seedCriteria = async (req, res) => {
     try {
-        const defaultCriteria = [
-            {
-                title: 'Clasificación Correcta de Residuos',
-                description: 'El desecho se depositó en el contenedor adecuado (Orgánico, Inorgánico, Reciclable).',
-                points: 15,
-                category: 'CLASIFICACION',
-                order: 1,
-            },
-            {
-                title: 'Área Circundante Impecable',
-                description: 'El suelo y perímetro alrededor de los basureros se encuentra completamente limpio y sin restos.',
-                points: 10,
-                category: 'LIMPIEZA',
-                order: 2,
-            },
-            {
-                title: 'Bolsas y Tapas en Orden',
-                description: 'Los botes cuentan con su bolsa correcta colocada y las tapas o accesos están bien colocados.',
-                points: 5,
-                category: 'ORDEN',
-                order: 3,
-            },
-            {
-                title: 'Iniciativa Comunitaria Extra',
-                description: 'El alumno o grupo recogió basura adicional en pasillos, patio o salón de clases de forma proactiva.',
-                points: 10,
-                category: 'GENERAL',
-                order: 4,
-            },
-        ];
-
-        const results = [];
-        for (const def of defaultCriteria) {
-            let criterion = await RubricCriterion.findOne({ title: def.title });
-            if (!criterion) {
-                criterion = new RubricCriterion(def);
-                await criterion.save();
-                results.push({ title: def.title, status: 'creado' });
-            } else {
-                results.push({ title: def.title, status: 'ya existía' });
-            }
-        }
-
+        await seedRubricsHelper();
         return res.status(200).json({
             ok: true,
-            msg: 'Inicialización de criterios de rúbrica completada exitosamente.',
-            results,
+            msg: 'Criterios de rúbrica oficiales inicializados exitosamente.',
         });
     } catch (error) {
         console.error('Error al sembrar criterios por defecto:', error);

@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import cors from 'cors';
 import { connectionDB } from './mongo.js';
+import { initSeeders } from '#helpers/init-seeders.js';
 import { createRequire } from 'module';
 import apiLimiter from "#middlewares/limit-petition.js";
 const require = createRequire(import.meta.url);
@@ -37,8 +38,13 @@ class Server {
         app.use(apiLimiter);
     }
 
-    connectDB() {
-        connectionDB();
+    async connectDB() {
+        await connectionDB();
+        await this.initSeed();
+    }
+
+    async initSeed() {
+        await initSeeders();
     }
 
     routes() {

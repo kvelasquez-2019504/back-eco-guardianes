@@ -1,6 +1,7 @@
 'use strict';
 
 import Level from './level.model.js';
+import { seedLevels as seedLevelsHelper } from '#helpers/init-seeders.js';
 
 export const createLevel = async (req, res) => {
     try {
@@ -118,61 +119,10 @@ export const deleteLevel = async (req, res) => {
 
 export const seedLevels = async (req, res) => {
     try {
-        const defaultLevels = [
-            {
-                name: 'Primero Básico',
-                stage: 'BASICO',
-                gradeNumber: 1,
-                allowedSections: ['A', 'B', 'C', 'D', 'E', 'F'],
-            },
-            {
-                name: 'Segundo Básico',
-                stage: 'BASICO',
-                gradeNumber: 2,
-                allowedSections: ['A', 'B', 'C', 'D', 'E'],
-            },
-            {
-                name: 'Tercero Básico',
-                stage: 'BASICO',
-                gradeNumber: 3,
-                allowedSections: ['A', 'B', 'C', 'D'],
-            },
-            {
-                name: 'Cuarto Diversificado',
-                stage: 'DIVERSIFICADO',
-                gradeNumber: 4,
-                allowedSections: ['A', 'B', 'C'],
-            },
-            {
-                name: 'Quinto Diversificado',
-                stage: 'DIVERSIFICADO',
-                gradeNumber: 5,
-                allowedSections: ['A', 'B', 'C'],
-            },
-            {
-                name: 'Sexto Diversificado',
-                stage: 'DIVERSIFICADO',
-                gradeNumber: 6,
-                allowedSections: ['A', 'B', 'C'],
-            },
-        ];
-
-        const results = [];
-        for (const def of defaultLevels) {
-            let level = await Level.findOne({ name: def.name });
-            if (!level) {
-                level = new Level(def);
-                await level.save();
-                results.push({ name: def.name, status: 'creado' });
-            } else {
-                results.push({ name: def.name, status: 'ya existía' });
-            }
-        }
-
+        await seedLevelsHelper();
         return res.status(200).json({
             ok: true,
-            msg: 'Proceso de inicialización de niveles completado.',
-            results,
+            msg: 'Niveles educativos de Kinal inicializados exitosamente.',
         });
     } catch (error) {
         console.error('Error al inicializar niveles:', error);

@@ -58,6 +58,21 @@ const EvaluationSchema = new Schema(
     { _id: true }
 );
 
+const PostImageSchema = new Schema(
+    {
+        data: {
+            type: Buffer,
+            required: true,
+        },
+        contentType: {
+            type: String,
+            required: true,
+            default: 'image/jpeg',
+        },
+    },
+    { _id: true }
+);
+
 const PostSchema = new Schema(
     {
         student: {
@@ -85,7 +100,7 @@ const PostSchema = new Schema(
             trim: true,
         },
         images: {
-            type: [String],
+            type: [PostImageSchema],
             validate: {
                 validator: function (v) {
                     return Array.isArray(v) && v.length > 0;
@@ -129,8 +144,22 @@ const PostSchema = new Schema(
 );
 
 PostSchema.methods.toJSON = function () {
-    const { __v, _id, ...object } = this.toObject();
+    const { __v, _id, images, ...object } = this.toObject();
     object.uid = _id;
+
+    // Transformar cada imagen excluyendo el buffer crudo para no saturar la red,
+    // y proveyendo la URL semántica para el endpoint de streaming.
+    if (Array.isArray(images)) {
+        const basePath = process.env.ROUTER_PATH_MASTER || '/eco-guardians/v1';
+        object.images = images.map((img, index) => ({
+            uid: img._id,
+            contentType: img.contentType,
+            url: `${basePath}/post/${_id}/image/${index}`,
+        }));
+    } else {
+        object.images = [];
+    }
+
     return object;
 };
 

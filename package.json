@@ -10,11 +10,11 @@
     "keywords": [],
     "author": "Kenneth Velasquez",
     "license": "ISC",
-    "imports":{
-        "#root/*":"./src/*",
-        "#middlewares/*":"./src/middlewares/*",
-        "#helpers/*":"./src/helpers/*",
-        "#eg/*":"./src/ecoguardians/*"
+    "imports": {
+        "#root/*": "./src/*",
+        "#middlewares/*": "./src/middlewares/*",
+        "#helpers/*": "./src/helpers/*",
+        "#eg/*": "./src/ecoguardians/*"
     },
     "devEngines": {
         "packageManager": {
@@ -38,6 +38,7 @@
         "helmet": "^8.3.0",
         "jsonwebtoken": "^9.0.3",
         "mongoose": "^9.10.0",
-        "morgan": "^1.12.1"
+        "morgan": "^1.12.1",
+        "multer": "^2.4.0"
     }
 }

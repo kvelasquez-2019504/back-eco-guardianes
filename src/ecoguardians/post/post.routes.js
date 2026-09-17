@@ -7,6 +7,7 @@ import { hasRole } from '#middlewares/role-validator.js';
 import { validateFields } from '#middlewares/fields-validator.js';
 import { isValidMongoId } from '#helpers/data-validator.js';
 import { postExistsById } from '#helpers/post-validator.js';
+import { uploadEvidenceImages } from '#middlewares/file-upload.js';
 import {
     createPost,
     getPosts,
@@ -14,6 +15,7 @@ import {
     evaluatePost,
     getMyPosts,
     deletePost,
+    getPostImage,
 } from './post.controller.js';
 
 const router = Router();
@@ -23,6 +25,16 @@ router.get('/', [validateJWT, validateFields], getPosts);
 
 // Consultar mis propias publicaciones (para STUDENT)
 router.get('/my-posts', [validateJWT, hasRole('STUDENT', 'ADMIN'), validateFields], getMyPosts);
+
+// Obtener imagen binaria de una publicación (para renderizado directo con <img src="...">)
+router.get(
+    '/:id/image/:index',
+    [
+        check('id').custom(isValidMongoId),
+        validateFields,
+    ],
+    getPostImage
+);
 
 // Consultar detalle de una publicación
 router.get(
@@ -36,14 +48,14 @@ router.get(
     getPostById
 );
 
-// Registrar publicación de evidencia ecológica (solo STUDENT en horario escolar)
+// Registrar publicación de evidencia ecológica (solo STUDENT en horario escolar, con multipart/form-data)
 router.post(
     '/',
     [
         validateJWT,
         hasRole('STUDENT', 'ADMIN'),
+        uploadEvidenceImages,
         check('description', 'La descripción de la acción es obligatoria').not().isEmpty().trim(),
-        check('images', 'Debe enviar un arreglo con al menos una imagen').isArray({ min: 1 }),
         validateFields,
     ],
     createPost
