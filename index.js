@@ -1,13 +1,9 @@
 'use strict';
-import Server from './config/server.js';
 import {config} from 'dotenv';
+import Server from './config/server.js';
 
-config({
-    filepath: './.env',
-    debug:true
-});
+config();
 
 const server = new Server();
-
 
 server.run();

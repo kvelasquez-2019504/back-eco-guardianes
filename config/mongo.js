@@ -27,7 +27,7 @@ export const connectionDB = async () => {
 
         await connect(process.env.URI_MONGO, {
             serverSelectionTimeoutMS: 5000,
-            maxPoolSize: 50
+            maxPoolSize: 50,
         });
     } catch (error) {
         console.log('Database connection failed', error);
