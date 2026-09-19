@@ -4,10 +4,61 @@ const require = createRequire(import.meta.url);
 
 export class ApiRoutes {
     constructor() {
-        this.userRoute = require('./ecoguardians/users/user.routes.js');
+        this.userRoute = require('#eg/users/user.routes.js');
+        this.authRoute = require('#eg/auth/auth.routes.js');
+        this.levelRoute = require('#eg/level/level.routes.js');
+        this.careerRoute = require('#eg/career/career.routes.js');
+        this.coordinatorRoute = require('#eg/coordinator/coordinatorAssignment.routes.js');
+        this.classRoute = require('#eg/class/classGroup.routes.js');
+        this.enrollmentRoute = require('#eg/enrollment/enrollment.routes.js');
+        this.rubricRoute = require('#eg/rubric/rubric.routes.js');
+        this.postRoute = require('#eg/post/post.routes.js');
+        this.turnRoute = require('#eg/turn/turn.routes.js');
+        this.rankingRoute = require('#eg/ranking/ranking.routes.js');
     }
 
     getUserRoutes() {
         return this.userRoute.default;
     }
+
+    getAuthRoutes() {
+        return this.authRoute.default;
+    }
+
+    getLevelRoutes() {
+        return this.levelRoute.default;
+    }
+
+    getCareerRoutes() {
+        return this.careerRoute.default;
+    }
+
+    getCoordinatorRoutes() {
+        return this.coordinatorRoute.default;
+    }
+
+    getClassRoutes() {
+        return this.classRoute.default;
+    }
+
+    getEnrollmentRoutes() {
+        return this.enrollmentRoute.default;
+    }
+
+    getRubricRoutes() {
+        return this.rubricRoute.default;
+    }
+
+    getPostRoutes() {
+        return this.postRoute.default;
+    }
+
+    getTurnRoutes() {
+        return this.turnRoute.default;
+    }
+
+    getRankingRoutes() {
+        return this.rankingRoute.default;
+    }
 }
+
