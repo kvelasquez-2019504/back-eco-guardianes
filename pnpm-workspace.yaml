@@ -1,3 +1,2 @@
 allowBuilds:
     bcrypt: true
-    pnpm: set this to true or false
