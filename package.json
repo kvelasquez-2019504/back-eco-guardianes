@@ -4,8 +4,9 @@
     "description": "Es la lógica de proyecto ecológico para mejorar la clasificación de basura",
     "main": "index.js",
     "scripts": {
-        "test": "node index.js",
-        "dev": "nodemon --import dotenv/config index.js"
+        "test": "node dotenv/config index.js && node index.js",
+        "dev": "nodemon --import dotenv/config index.js",
+        "start": "node --import dotenv/config index.js && node index.js"
     },
     "keywords": [],
     "author": "Kenneth Velasquez",
@@ -39,6 +40,7 @@
         "jsonwebtoken": "^9.0.3",
         "mongoose": "^9.10.0",
         "morgan": "^1.12.1",
-        "multer": "^2.4.0"
+        "multer": "^2.4.0",
+        "pnpm": "^12.4.2"
     }
 }
