@@ -32,7 +32,9 @@ class Server {
     middleware(){
         app.use(express.json());
         app.use(express.urlencoded({extended: false}));
-        app.use(helmet());
+        app.use(helmet({
+            crossOriginResourcePolicy: { policy: "cross-origin" }
+        }));
         app.use(morgan("dev"));
         app.use(cors());
         app.use(apiLimiter);
